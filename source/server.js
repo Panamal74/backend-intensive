@@ -1,5 +1,7 @@
 // Core
 import express from 'express';
+import passport from 'passport';
+import { Strategy as GitHubStrategy } from 'passport-github2';
 
 // Routes
 import * as domains from './domains';
@@ -11,18 +13,42 @@ import {
     notFoundLogger,
     validationLogger,
     requireJsonContent,
+    getGithubSecrets,
     NotFoundError,
 } from './helpers';
 
 const app = express();
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+    done(null, obj);
+});
+
+const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = getGithubSecrets();
+
+passport.use(
+    new GitHubStrategy(
+        {
+            clientID:     process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            callbackURL:  'http://127.0.0.1:3000/api/teachers',
+        },
+        function(accessToken, refreshToken, profile, done) {
+            process.nextTick(() => {
+                return done(null, profile);
+            });
+        },
+    ),
+);
 
 app.use(
     express.json({
         limit: '10kb',
     }),
 );
-
-app.use(requireJsonContent);
 
 if (process.env.NODE_ENV === 'development') {
     app.use((req, res, next) => {
@@ -34,6 +60,11 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+app.use(requireJsonContent);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/api/auth', domains.auth);
 app.use('/api/teachers', domains.teachers);
 app.use('/api/pupils', domains.pupils);
 app.use('/api/parents', domains.parents);
