@@ -32,11 +32,11 @@ const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = getGithubSecrets();
 passport.use(
     new GitHubStrategy(
         {
-            clientID:     process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            clientID:     GITHUB_CLIENT_ID,
+            clientSecret: GITHUB_CLIENT_SECRET,
             callbackURL:  'http://127.0.0.1:3000/api/teachers',
         },
-        function(accessToken, refreshToken, profile, done) {
+        (accessToken, refreshToken, profile, done) => {
             process.nextTick(() => {
                 return done(null, profile);
             });
