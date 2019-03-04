@@ -1,5 +1,7 @@
 // Core
 import express from 'express';
+import passport from 'passport';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
 // Routes
 import * as domains from './domains';
@@ -11,10 +13,25 @@ import {
     notFoundLogger,
     validationLogger,
     requireJsonContent,
+    getPassword,
     NotFoundError,
 } from './helpers';
 
 const app = express();
+const key = getPassword();
+
+const options = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey:    key,
+};
+
+passport.use(
+    new JwtStrategy(options, (jwtPayload, done) => {
+        const { email } = jwtPayload;
+
+        return done(null, { email });
+    }),
+);
 
 app.use(
     express.json({
@@ -34,6 +51,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+app.use('/api/auth', domains.auth);
 app.use('/api/teachers', domains.teachers);
 app.use('/api/pupils', domains.pupils);
 app.use('/api/parents', domains.parents);

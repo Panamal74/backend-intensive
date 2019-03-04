@@ -1,4 +1,8 @@
 export const requireJsonContent = (req, res, next) => {
+    if (req.originalUrl.includes('login')) {
+        return next();
+    }
+
     if (req.method === 'GET') {
         return next();
     }

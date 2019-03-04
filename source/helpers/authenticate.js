@@ -1,13 +1,4 @@
-import { getPassword } from './getPassword';
+// Core
+import passport from 'passport';
 
-const password = getPassword();
-
-export const authenticate = (req, res, next) => {
-    const { authorization } = req.headers;
-
-    if (authorization === password) {
-        next();
-    } else {
-        res.status(401).json({ message: 'authentication credentials are not valid' });
-    }
-};
+export const authenticate = passport.authenticate('jwt', { session: false });
