@@ -34,6 +34,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+app.use('/api/auth', domains.auth);
 app.use('/api/teachers', domains.teachers);
 app.use('/api/pupils', domains.pupils);
 app.use('/api/parents', domains.parents);

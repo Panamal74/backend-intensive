@@ -3,3 +3,4 @@ export { pupils } from './pupils/router';
 export { parents } from './parents/router';
 export { classes } from './classes/router';
 export { subjects } from './subjects/router';
+export { auth } from './auth/router';

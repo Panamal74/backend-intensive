@@ -1,13 +1,22 @@
+// Core
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
+
+// Instruments
 import { getPassword } from './getPassword';
 
-const password = getPassword();
+const verify = promisify(jwt.verify);
+const key = getPassword();
 
-export const authenticate = (req, res, next) => {
+export const authenticate = async (req, res, next) => {
     const { authorization } = req.headers;
 
-    if (authorization === password) {
+    try {
+        const data = await verify(authorization, key);
+
+        // TODO: Need to connect to the database
         next();
-    } else {
+    } catch (error) {
         res.status(401).json({ message: 'authentication credentials are not valid' });
     }
 };
