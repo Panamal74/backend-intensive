@@ -14,6 +14,7 @@ import {
     requireJsonContent,
     getPassword,
     NotFoundError,
+    Storage,
 } from './helpers';
 
 const app = express();
@@ -24,6 +25,7 @@ const sessionOptions = {
     resave:            false,
     rolling:           true,
     saveUninitialized: false,
+    store:             new Storage(),
     cookie:            {
         httpOnly: true,
         maxAge:   15 * 60 * 1000,
