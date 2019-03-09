@@ -5,17 +5,9 @@
     "verbose": false,
     "notify": true,
     "bail": false,
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": ["<rootDir>/source/**/*.js"],
     "coveragePathIgnorePatterns": [],
-    "coverageThreshold": {
-        "global": {
-            "branches": 85,
-            "functions": 85,
-            "lines": 85,
-            "statements": 85
-        }
-    },
     "modulePaths": ["<rootDir>/source", "<rootDir>/node_modules"],
     "moduleFileExtensions": ["js", "json"],
     "globalSetup": "<rootDir>/jest/scripts/globalSetup.js",
