@@ -10,6 +10,7 @@
     "coveragePathIgnorePatterns": [],
     "modulePaths": ["<rootDir>/source", "<rootDir>/node_modules"],
     "moduleFileExtensions": ["js", "json"],
+    "setupFiles": ["<rootDir>/jest/scripts/setupFiles.js"],
     "globalSetup": "<rootDir>/jest/scripts/globalSetup.js",
     "globalTeardown": "<rootDir>/jest/scripts/globalTeardown.js",
     "testURL": "http://www.test.com"
