@@ -5,7 +5,7 @@ import request from 'supertest';
 import { app } from '../../../server';
 
 const server = request(app);
-describe('teachers', () => {
+describe('teachers read:', () => {
     test('should return 200 for getting all teachers', async (done) => {
         const response = await server.get('/api/teachers');
 
