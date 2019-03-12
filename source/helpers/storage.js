@@ -66,6 +66,8 @@ export class Storage extends Store {
     }
 
     destroy(sid, callback) {
+        debug('destroy');
+
         try {
             this.storage.delete(sid);
             callback(null);
@@ -76,5 +78,12 @@ export class Storage extends Store {
 
     clearAll() {}
 
-    getAll() {}
+    getAll() {
+        debug('getAll');
+
+        const values = this.storage.values();
+        const data = [ ...values ].map(({ data }) => data);
+
+        return data;
+    }
 }
