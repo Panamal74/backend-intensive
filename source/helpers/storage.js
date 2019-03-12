@@ -8,11 +8,19 @@ export class Storage extends Store {
     }
 
     set(sid, session, callback) {
+        const authTypes = [ 'cookie', 'jwt', 'local' ];
+
         try {
             const {
                 cookie,
-                user: { customer, agent },
+                user: { customer, agent, authType },
             } = session;
+
+            const isExists = authTypes.some((type) => type === authType);
+
+            if (!isExists) {
+                throw new Error(`Auth type ${authType} is forbidden`);
+            }
 
             if (!customer.email) {
                 throw new Error('email should be specified');
@@ -24,6 +32,7 @@ export class Storage extends Store {
                 agent:   agent,
                 start,
                 end:     cookie.expires,
+                authType,
             };
 
             this.storage.set(sid, {

@@ -12,7 +12,7 @@ export const post = (req, res) => {
         const passwordDecoded = Buffer.from(password, 'base64').toString();
 
         const agent = req.get('user-agent');
-        req.session.user = { customer: { email: emailDecoded }, agent };
+        req.session.user = { customer: { email: emailDecoded }, agent, authType: 'cookie' };
 
         res.sendStatus(204);
     } catch (error) {
