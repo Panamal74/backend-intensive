@@ -76,7 +76,9 @@ export class Storage extends Store {
         }
     }
 
-    clearAll() {}
+    destroyAll() {
+        this.storage = new Map();
+    }
 
     getAll() {
         debug('getAll');
