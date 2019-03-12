@@ -3,17 +3,10 @@ import request from 'supertest';
 import faker from 'faker';
 
 // Instruments
-import { app } from '../../../server';
-
-const teacher = () => ({
-    name: {
-        first: faker.name.firstName(),
-    },
-    address: faker.address.streetAddress(),
-});
+import { app } from '../../../../server';
 
 const server = request.agent(app);
-describe('teachers create:', () => {
+describe('class update:', () => {
     beforeAll(async (done) => {
         const email = Buffer.from(faker.internet.email()).toString('base64');
         const password = Buffer.from(faker.internet.password()).toString('base64');
@@ -25,18 +18,19 @@ describe('teachers create:', () => {
         done();
     });
 
-    test('should return 200 for create teacher', async (done) => {
-        const response = await server.post('/api/teachers').send(teacher());
+    test('should return 200 for update person', async (done) => {
+        const response = await server.put('/api/classes/1').send({});
 
         expect(response.statusCode).toBe(200);
         done();
     });
 
-    test('should return 200 and returning data should be an array', async (done) => {
-        const response = await server.post('/api/teachers').send(teacher());
+    test('should return 200 and returning data should be an object', async (done) => {
+        const response = await server.put('/api/classes/1').send({});
         const { data } = response.body;
 
-        expect(Array.isArray(data)).toBeTruthy();
+        expect(Array.isArray(data)).toBeFalsy();
+        expect(typeof data).toBe('object');
         done();
     });
 });

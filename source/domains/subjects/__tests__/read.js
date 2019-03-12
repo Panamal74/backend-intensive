@@ -19,6 +19,7 @@ describe('subject read:', () => {
 
         expect(Array.isArray(data)).toBeFalsy();
         expect(typeof data).toBe('object');
+        expect(data).not.toBeNull();
         done();
     });
 });
