@@ -5,7 +5,7 @@ const debug = dg('db');
 
 const mongooseOptions = {
     promiseLibrary:    global.Promise,
-    poolSize:          50,
+    poolSize:          10,
     keepAlive:         30000,
     connectTimeoutMS:  5000,
     reconnectTries:    Number.MAX_SAFE_INTEGER,
