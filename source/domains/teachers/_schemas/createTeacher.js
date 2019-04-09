@@ -16,6 +16,7 @@ export default {
             required: [ 'first' ],
         },
     },
-    required:             [ 'name' ],
-    additionalProperties: false,
+    required: [ 'name' ],
+
+    // additionalProperties: false,
 };

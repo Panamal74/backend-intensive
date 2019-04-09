@@ -7,6 +7,18 @@ export class Subjects {
         };
     }
 
+    async find() {
+        const data = await this.models.subjects.find();
+
+        return data;
+    }
+
+    async create() {
+        const data = await this.models.subjects.create();
+
+        return data;
+    }
+
     async findSeason() {
         const data = await this.models.subjects.findSeason();
 

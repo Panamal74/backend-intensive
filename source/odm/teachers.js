@@ -61,5 +61,13 @@ const schema = new mongoose.Schema(
 
 schema.index({ 'name.first': 1, 'name.last': 1 });
 
+schema.path('phones').validate(function(value) {
+    const regex = /^38\d{3}-\d{3}-\d{4}$/;
+
+    const isValid = value.every(({ phone }) => regex.test(phone));
+
+    return isValid;
+}, 'Phone should have format 38XXX-XXX-XXXX');
+
 // Collection
 export const teachers = mongoose.model('teachers', schema);

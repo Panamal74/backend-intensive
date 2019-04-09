@@ -10,6 +10,7 @@ const schema = new mongoose.Schema(
         },
         password: {
             type:     String,
+            select:   false,
             required: true,
         },
     },

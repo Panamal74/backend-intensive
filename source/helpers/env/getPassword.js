@@ -4,7 +4,7 @@ export const getPassword = () => {
     const { PASSWORD } = process.env;
 
     if (!PASSWORD) {
-        throw new ValidationError('Environment variable PASSWORD should be specified', 400);
+        throw new ValidationError('Environment variable PORT should be specified', 400);
     }
 
     const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(PASSWORD);

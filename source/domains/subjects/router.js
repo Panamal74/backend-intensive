@@ -13,6 +13,9 @@ import { authenticate } from '../../helpers';
 
 const route = express.Router();
 
+route.get('/', subject.getSubjects);
+route.post('/', [ authenticate ], subject.createSubject);
+
 route.get('/:subjectsId', subject.get);
 route.post('/:subjectsId', [ authenticate ], subject.post);
 route.put('/:subjectsId', [ authenticate ], subject.put);

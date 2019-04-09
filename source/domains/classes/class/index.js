@@ -27,7 +27,7 @@ export const post = async (req, res) => {
         const { classId: id } = req.params;
         const { gradebook } = req.body;
         const classes = new Classes({ id, gradebook });
-        const data = await classes.createByClassId();
+        const data = await classes.assignGradebook();
 
         res.status(200).json({ data });
     } catch (error) {
