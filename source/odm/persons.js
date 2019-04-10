@@ -43,10 +43,16 @@ const schema = new mongoose.Schema(
             skype:    String,
             telegram: String,
         },
-        class:   mongoose.SchemaTypes.ObjectId,
+        class: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref:  'classes',
+        },
         parents: [
             {
-                parent: mongoose.SchemaTypes.ObjectId,
+                parent: {
+                    type: mongoose.SchemaTypes.ObjectId,
+                    ref:  'parents',
+                },
             },
         ],
         description: String,

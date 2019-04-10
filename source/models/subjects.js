@@ -1,7 +1,7 @@
 import v4 from 'uuid/v4';
 
 // ODM
-import { seasons, lessons, subjects } from '../odm';
+import {seasons, lessons, subjects} from '../odm';
 
 export class Subjects {
     constructor(data) {
@@ -10,6 +10,17 @@ export class Subjects {
 
     async find() {
         const data = await subjects.find().lean();
+
+        return data;
+    }
+
+    async findById() {
+        const { id } = this.data;
+        const data = await subjects
+            .findById(id)
+            .populate({ path: 'seasons.season', select: '-_id -__v' })
+            .select('-_id -__v')
+            .lean();
 
         return data;
     }

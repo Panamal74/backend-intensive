@@ -21,10 +21,14 @@ const schema = new mongoose.Schema(
         subject: {
             type:     mongoose.SchemaTypes.ObjectId,
             required: true,
+            ref:      'subjects',
         },
         lessons: [
             {
-                lesson: mongoose.SchemaTypes.ObjectId,
+                lesson: {
+                    type: mongoose.SchemaTypes.ObjectId,
+                    ref:  'lessons',
+                },
             },
         ],
         description: String,
