@@ -8,9 +8,14 @@ const schema = new mongoose.Schema(
             required: true,
             unique:   true,
         },
-        image: String,
+        image: {
+            type: String,
+            match: /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/,
+        },
         year:  {
             type:     Number,
+            min:      2019,
+            max:      2099,
             required: true,
             index:    true,
         },
@@ -44,7 +49,10 @@ const schema = new mongoose.Schema(
                 mark: Number,
             },
         ],
-        description: String,
+        description: {
+            type:      String,
+            maxlength: 250,
+        },
     },
     {
         timestamps: {

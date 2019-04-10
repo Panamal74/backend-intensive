@@ -11,19 +11,33 @@ const schema = new mongoose.Schema(
         name: {
             first: {
                 type:     String,
+                minlength: 2,
+                maxlength: 15,
                 required: true,
             },
             last: {
                 type:     String,
+                minlength: 2,
+                maxlength: 15,
                 required: true,
             },
         },
-        image:       String,
-        dateOfBirth: Date,
+        image: {
+            type:  String,
+            match: /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/,
+        },
+        dateOfBirth: {
+            type: Date,
+            max: () => {
+                const maxYear = (new Date()).getFullYear() - 18;
+                return (new Date()).setFullYear(maxYear);
+            },
+        },
         emails:      [
             {
                 email: {
                     type:     String,
+                    match:    /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/,
                     required: true,
                     unique:   true,
                 },
@@ -32,11 +46,17 @@ const schema = new mongoose.Schema(
         ],
         phones: [
             {
-                phone:   String,
+                phone: {
+                    type:  String,
+                    match: /^\(\d{3,6}\)\s[\d\s]{5,9}$/,
+                },
                 primary: Boolean,
             },
         ],
-        sex:    String,
+        sex: {
+            type: String,
+            enum: ['m', 'f'],
+        },
         social: {
             facebook: String,
             linkedIn: String,
@@ -51,8 +71,11 @@ const schema = new mongoose.Schema(
                 },
             },
         ],
-        description: String,
-        started:     Date,
+        description: {
+            type:      String,
+            maxlength: 250,
+        },
+        started: Date,
     },
     {
         timestamps: {
@@ -64,13 +87,13 @@ const schema = new mongoose.Schema(
 
 schema.index({ 'name.first': 1, 'name.last': 1 });
 
-schema.path('phones').validate(function(value) {
-    const regex = /^38\d{3}-\d{3}-\d{4}$/;
-
-    const isValid = value.every(({ phone }) => regex.test(phone));
-
-    return isValid;
-}, 'Phone should have format 38XXX-XXX-XXXX');
+// schema.path('phones').validate(function(value) {
+//     const regex = /^38\d{3}-\d{3}-\d{4}$/;
+//
+//     const isValid = value.every(({ phone }) => regex.test(phone));
+//
+//     return isValid;
+// }, 'Phone should have format 38XXX-XXX-XXXX');
 
 // Collection
 export const teachers = mongoose.model('teachers', schema);

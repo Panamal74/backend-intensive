@@ -10,10 +10,14 @@ const schema = new mongoose.Schema(
         },
         title: {
             type:     String,
+            maxlength: 30,
             required: true,
             unique:   true,
         },
-        image:   String,
+        image: {
+            type: String,
+            match: /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/,
+        },
         seasons: [
             {
                 season: {
@@ -22,7 +26,10 @@ const schema = new mongoose.Schema(
                 },
             },
         ],
-        description: String,
+        description: {
+            type:      String,
+            maxlength: 250,
+        },
     },
     {
         timestamps: {
