@@ -5,10 +5,10 @@ function makePasswordRegExp(patterns, min, max) {
     const maX = max || '';
     let regex_string = '';
     const rules = [];
-    const range = "{" + miN + "," + maX + "}"; // Разрешённый диапазон для длины строки
-    for (let rule in patterns) { // Обрабатываем входящий массив из ВСЕХ правил для строки
+    const range = "{" + miN + "," + maX + "}";
+    for (let rule in patterns) {
         if (patterns.hasOwnProperty(rule)) {
-            rules.push(patterns[rule]); // Запоминаем правила
+            rules.push(patterns[rule]);
             // Формируем последовательность из шаблонов `(?=.*[%s])`
             // Она проверит обязательное присутствие всех символов из входящего набора
             regex_string += "(?=.*[" + patterns[rule] + "])";
@@ -31,6 +31,9 @@ const patterns = {
 const min = 8;
 
 const regexpPassword = makePasswordRegExp(patterns, min);
+// Должно получиться правило:
+// /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9!@#$%^&*a-zA-Z]{8,}/g
+// Таким образом удобно в одном понятном месте тюнинговать требования к паролю
 
 // Document shape
 const schema = new mongoose.Schema(
