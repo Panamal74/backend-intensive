@@ -10,14 +10,19 @@ const schema = new mongoose.Schema(
         },
         order: {
             type:     Number,
+            min:      0,
             required: true,
         },
         title: {
-            type:     String,
-            required: true,
-            unique:   true,
+            type:      String,
+            maxlength: 30,
+            required:  true,
+            unique:    true,
         },
-        image:   String,
+        image: {
+            type: String,
+            match: /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/,
+        },
         subject: {
             type:     mongoose.SchemaTypes.ObjectId,
             required: true,

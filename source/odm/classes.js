@@ -10,21 +10,30 @@ const schema = new mongoose.Schema(
         },
         order: {
             type:     Number,
+            min:      0,
             required: true,
             index:    true,
         },
         title: {
-            type:     String,
-            required: true,
-            unique:   true,
+            type:      String,
+            maxlength: 30,
+            required:  true,
+            unique:    true,
         },
-        image: String,
-        room:  {
+        image: {
+            type: String,
+            match: /^(https?:\/\/)?([\w\.]+)\.([a-z]{2,6}\.?)(\/[\w\.]*)*\/?$/,
+        },
+        room: {
             type:     Number,
+            min:      0,
             required: true,
             index:    true,
         },
-        floor:      Number,
+        floor: {
+            type:     Number,
+            min:      0,
+        },
         gradebooks: [
             {
                 gradebook: {
@@ -33,7 +42,10 @@ const schema = new mongoose.Schema(
                 },
             },
         ],
-        description: String,
+        description: {
+            type:      String,
+            maxlength: 250,
+        },
     },
     {
         timestamps: {
