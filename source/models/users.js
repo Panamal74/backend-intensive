@@ -1,5 +1,5 @@
 // Core
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 
 // Instruments
 import { users } from '../odm';
@@ -11,9 +11,11 @@ export class Users {
 
     async register() {
         const { email, password } = this.data;
-        const hashedPassword = await bcrypt.hash(password, 11);
+        // const hashedPassword = await bcrypt.hash(password, 11);
+        // await users.create({ email, password: hashedPassword });
 
-        await users.create({ email, password: hashedPassword });
+        // шифрую пароль в мидлваре pre
+        await users.create({ email, password });
 
         return true;
     }

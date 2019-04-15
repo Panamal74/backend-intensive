@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 function makePasswordRegExp(patterns, min, max) {
     const miN = min || '';
@@ -58,6 +59,12 @@ const schema = new mongoose.Schema(
         },
     },
 );
+
+schema.pre('save', async function(next) {
+    this.password = await bcrypt.hash(this.password, 11);
+
+    next();
+});
 
 // Collection
 export const users = mongoose.model('users', schema);
