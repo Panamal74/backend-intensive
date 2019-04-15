@@ -10,12 +10,11 @@ export class Users {
     }
 
     async register() {
-        const { email, password } = this.data;
+        await users.create(this.data);
+
+        // const { email, password } = this.data;
         // const hashedPassword = await bcrypt.hash(password, 11);
         // await users.create({ email, password: hashedPassword });
-
-        // шифрую пароль в мидлваре pre
-        await users.create({ email, password });
 
         return true;
     }
