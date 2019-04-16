@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { seasons } from  './index';
 
 // Document shape
 const schema = new mongoose.Schema(
@@ -23,6 +24,15 @@ const schema = new mongoose.Schema(
                 season: {
                     type: mongoose.SchemaTypes.ObjectId,
                     ref:  'seasons',
+                    validate: {
+                        validator(value) {
+                            return seasons.findById(value).lean();
+                        },
+                        message(props) {
+                            const { value } = props;
+                            return `Season with ID '${value}' does not exist in seasons collection`;
+                        },
+                    },
                 },
             },
         ],

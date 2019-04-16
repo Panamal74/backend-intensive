@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {persons} from './index';
 
 // Document shape
 const schema = new mongoose.Schema(
@@ -72,6 +73,15 @@ const schema = new mongoose.Schema(
                 person: {
                     type: mongoose.SchemaTypes.ObjectId,
                     ref:  'pupils',
+                    validate: {
+                        validator(value) {
+                            return persons.findById(value).lean();
+                        },
+                        message(props) {
+                            const { value } = props;
+                            return `Pupil with ID '${value}' does not exist in persons collection`;
+                        },
+                    },
                 },
             },
         ],

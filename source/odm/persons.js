@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {classes, parents} from './index';
 
 // Document shape
 const schema = new mongoose.Schema(
@@ -66,12 +67,30 @@ const schema = new mongoose.Schema(
         class: {
             type: mongoose.SchemaTypes.ObjectId,
             ref:  'classes',
+            validate: {
+                validator(value) {
+                    return classes.findById(value).lean();
+                },
+                message(props) {
+                    const { value } = props;
+                    return `Class with ID '${value}' does not exist in classes collection`;
+                },
+            },
         },
         parents: [
             {
                 parent: {
                     type: mongoose.SchemaTypes.ObjectId,
                     ref:  'parents',
+                    validate: {
+                        validator(value) {
+                            return parents.findById(value).lean();
+                        },
+                        message(props) {
+                            const { value } = props;
+                            return `Parent with ID '${value}' does not exist in parents collection`;
+                        },
+                    },
                 },
             },
         ],

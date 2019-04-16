@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {gradebooks} from "./index";
 
 // Document shape
 const schema = new mongoose.Schema(
@@ -39,6 +40,15 @@ const schema = new mongoose.Schema(
                 gradebook: {
                     type: mongoose.SchemaTypes.ObjectId,
                     ref:  'gradebooks',
+                    validate: {
+                        validator(value) {
+                            return gradebooks.findById(value).lean();
+                        },
+                        message(props) {
+                            const { value } = props;
+                            return `Gradebook with ID '${value}' does not exist in gradebooks collection`;
+                        },
+                    },
                 },
             },
         ],
